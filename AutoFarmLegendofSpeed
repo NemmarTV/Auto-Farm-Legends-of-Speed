@@ -1,0 +1,146 @@
+-- ReCode By Nemmar
+
+local autofarm = Instance.new("ScreenGui")
+local main = Instance.new("Frame")
+local title = Instance.new("TextLabel")
+local toggleButtons = {
+    rebirth = {},
+    hoop = {},
+    gem = {},
+    orb = {}
+}
+local credits = Instance.new("TextLabel")
+
+-- Properties:
+autofarm.Name = "autofarm"
+autofarm.Parent = game.CoreGui
+
+main.Name = "main"
+main.Parent = autofarm
+main.BackgroundColor3 = Color3.new(1, 0.333, 1)
+main.Position = UDim2.new(0.14, 0, 0.62, 0)
+main.Size = UDim2.new(0, 394, 0, 256)
+main.Active = true
+main.Draggable = true
+
+title.Name = "title"
+title.Parent = main
+title.BackgroundColor3 = Color3.new(0.333, 1, 1)
+title.Size = UDim2.new(0, 394, 0, 40)
+title.Font = Enum.Font.GothamBold
+title.Text = "Auto Farm"
+title.TextColor3 = Color3.new(0, 0, 0)
+title.TextSize = 14
+
+-- Helper function to create toggle buttons
+local function createToggleButton(name, parent, position, offText, onText, toggleVariable, toggleFunction)
+    local buttonOff = Instance.new("Frame")
+    buttonOff.Name = name .. "Off"
+    buttonOff.Parent = parent
+    buttonOff.BackgroundColor3 = Color3.new(1, 1, 1)
+    buttonOff.Position = position
+    buttonOff.Size = UDim2.new(0, 109, 0, 50)
+
+    local button = Instance.new("TextButton")
+    button.Name = name .. "Button"
+    button.Parent = buttonOff
+    button.BackgroundColor3 = Color3.new(1, 0, 0)
+    button.Size = UDim2.new(0, 109, 0, 50)
+    button.Font = Enum.Font.GothamBlack
+    button.Text = offText
+    button.TextColor3 = Color3.new(0, 0, 0)
+    button.TextSize = 14
+
+    button.MouseButton1Down:Connect(function()
+        toggleVariable[1] = not toggleVariable[1]
+        buttonOff.BackgroundColor3 = toggleVariable[1] and Color3.new(0, 1, 0) or Color3.new(1, 0, 0)
+        button.Text = toggleVariable[1] and onText or offText
+        toggleFunction(toggleVariable[1])
+    end)
+    return buttonOff
+end
+
+-- Define toggle functions
+toggleButtons.rebirth = createToggleButton(
+    "rebirth", main, UDim2.new(0.07, 0, 0.65, 0), "AutoRebirth (Off)", "AutoRebirth (On)",
+    {_G.Rebirth},
+    function(isEnabled)
+        _G.Rebirth = isEnabled
+        if isEnabled then
+            coroutine.wrap(function()
+                while _G.Rebirth do
+                    wait(5)
+                    game:GetService("ReplicatedStorage").rEvents.rebirthEvent:FireServer({ "rebirthRequest" })
+                end
+            end)()
+        end
+    end
+)
+
+toggleButtons.hoop = createToggleButton(
+    "hoop", main, UDim2.new(0.05, 0, 0.25, 0), "Hoopfarm (Off)", "Hoopfarm (On)",
+    {_G.Farm3},
+    function(isEnabled)
+        _G.Farm3 = isEnabled
+        if isEnabled then
+            coroutine.wrap(function()
+                while _G.Farm3 do
+                    wait()
+                    for _, v in pairs(game.Workspace.Hoops:GetChildren()) do
+                        v.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                    end
+                end
+            end)()
+        end
+    end
+)
+
+toggleButtons.gem = createToggleButton(
+    "gem", main, UDim2.new(0.36, 0, 0.25, 0), "Gemfarm (Off)", "Gemfarm (On)",
+    {_G.Farm2},
+    function(isEnabled)
+        _G.Farm2 = isEnabled
+        if isEnabled then
+            coroutine.wrap(function()
+                while _G.Farm2 do
+                    wait()
+                    for _, v in pairs(game.Workspace.orbFolder.City:GetChildren()) do
+                        if v.Name == "Gem" then
+                            v.outerGem.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                        end
+                    end
+                end
+            end)()
+        end
+    end
+)
+
+toggleButtons.orb = createToggleButton(
+    "orb", main, UDim2.new(0.67, 0, 0.25, 0), "Orbfarm (Off)", "Orbfarm (On)",
+    {_G.Farm1},
+    function(isEnabled)
+        _G.Farm1 = isEnabled
+        if isEnabled then
+            coroutine.wrap(function()
+                while _G.Farm1 do
+                    wait()
+                    for _, v in pairs(game.Workspace.orbFolder.City:GetChildren()) do
+                        if v.Name ~= "Gem" then
+                            v.outerOrb.CFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame
+                        end
+                    end
+                end
+            end)()
+        end
+    end
+)
+
+credits.Name = "credits"
+credits.Parent = main
+credits.BackgroundColor3 = Color3.new(0.333, 0, 0.498)
+credits.Position = UDim2.new(0, 0, 0.84, 0)
+credits.Size = UDim2.new(0, 393, 0, 41)
+credits.Font = Enum.Font.GothamBlack
+credits.Text = "Made By Ree"
+credits.TextColor3 = Color3.new(0.333, 1, 1)
+credits.TextSize = 14
