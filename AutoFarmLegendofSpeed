@@ -1,4 +1,4 @@
--- ReCode By Nemmar
+-- Recode By Nemmar
 
 local autofarm = Instance.new("ScreenGui")
 local main = Instance.new("Frame")
@@ -141,6 +141,6 @@ credits.BackgroundColor3 = Color3.new(0.333, 0, 0.498)
 credits.Position = UDim2.new(0, 0, 0.84, 0)
 credits.Size = UDim2.new(0, 393, 0, 41)
 credits.Font = Enum.Font.GothamBlack
-credits.Text = "Made By Ree"
+credits.Text = "Made By Nems Hub"
 credits.TextColor3 = Color3.new(0.333, 1, 1)
 credits.TextSize = 14
