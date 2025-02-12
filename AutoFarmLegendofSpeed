@@ -1,8 +1,8 @@
--- Recode By Nemmar
-
 local autofarm = Instance.new("ScreenGui")
 local main = Instance.new("Frame")
 local title = Instance.new("TextLabel")
+local minimizeButton = Instance.new("TextButton")
+local isMinimized = false
 local toggleButtons = {
     rebirth = {},
     hoop = {},
@@ -26,11 +26,33 @@ main.Draggable = true
 title.Name = "title"
 title.Parent = main
 title.BackgroundColor3 = Color3.new(0.333, 1, 1)
-title.Size = UDim2.new(0, 394, 0, 40)
+title.Size = UDim2.new(0, 394, 0, 20)
 title.Font = Enum.Font.GothamBold
-title.Text = "Auto Farm"
+title.Text = "Legends of Speed |  NemsHubV1 - Premuim V2.0"
 title.TextColor3 = Color3.new(0, 0, 0)
 title.TextSize = 14
+
+-- Minimize Button
+minimizeButton.Name = "minimizeButton"
+minimizeButton.Parent = title
+minimizeButton.BackgroundColor3 = Color3.new(1, 0, 0)
+minimizeButton.Position = UDim2.new(0.9, 0, 0, 0)
+minimizeButton.Size = UDim2.new(0, 40, 0, 20)
+minimizeButton.Font = Enum.Font.GothamBlack
+minimizeButton.Text = "-"
+minimizeButton.TextColor3 = Color3.new(0, 0, 0)
+minimizeButton.TextSize = 20
+
+-- Minimize toggle function
+minimizeButton.MouseButton1Click:Connect(function()
+    isMinimized = not isMinimized
+    for _, child in pairs(main:GetChildren()) do
+        if child ~= title and child ~= minimizeButton then
+            child.Visible = not isMinimized
+        end
+    end
+    main.Size = isMinimized and UDim2.new(0, 394, 0, 40) or UDim2.new(0, 394, 0, 256)
+end)
 
 -- Helper function to create toggle buttons
 local function createToggleButton(name, parent, position, offText, onText, toggleVariable, toggleFunction)
@@ -138,9 +160,9 @@ toggleButtons.orb = createToggleButton(
 credits.Name = "credits"
 credits.Parent = main
 credits.BackgroundColor3 = Color3.new(0.333, 0, 0.498)
-credits.Position = UDim2.new(0, 0, 0.84, 0)
-credits.Size = UDim2.new(0, 393, 0, 41)
+credits.Position = UDim2.new(0, 0, 1, 0)
+credits.Size = UDim2.new(0, 394, 0, 20)
 credits.Font = Enum.Font.GothamBlack
-credits.Text = "Made By Nems Hub"
+credits.Text = "Made By NemsHubV1"
 credits.TextColor3 = Color3.new(0.333, 1, 1)
 credits.TextSize = 14
